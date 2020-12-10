@@ -1,0 +1,55 @@
+{% extends 'base_layout.html' %}
+{% block content %}
+    <div class="col-sm-6 offset-sm-3 mod-form">
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{ forms }}
+            <div class="col-sm-6 offset-sm-6">
+                <div class="row">
+                    <button type="submit" id="btnSubmit" class="btn btn-success btn-block">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+
+        $(document).ready(function(){
+            $('form').on('submit', function(){
+                $('#btnSubmit').attr('type', 'button');
+            })
+        })
+
+
+    </script>
+
+    <style>
+
+        .mod-form{
+            border:1px solid rgb(46, 44, 44);
+            padding:30px 30px;
+            border-radius:10px;
+            background-color:rgba(34, 33, 33, 0.514);
+            margin-top:100px;
+        }
+
+        #id_fullname, #id_email, #id_submit{
+            margin-bottom:10px;
+        }
+
+        input, #id_fullname, #id_email{
+            background-color:rgba(19, 18, 18, 0.521);
+            border:none;
+            color:white;
+        }
+
+        label{
+            color:white;
+        }
+
+        .btn-success{
+            background-color:rgba(85, 209, 116, 0.521);
+        }
+    </style>
+    
+{% endblock %}

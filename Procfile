@@ -1,0 +1,1 @@
+web: gunicorn bsit_2020.wsgi --log-file -

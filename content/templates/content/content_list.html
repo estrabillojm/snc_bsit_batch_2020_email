@@ -1,0 +1,145 @@
+{% extends 'base_layout.html' %}
+{% block content %}
+
+    <div class="col-sm-10 offset-sm-1 mod-form">
+        <div class="row">
+        <div class="col-sm-6">
+            <h3 class="h3">SNC BSIT</h3>
+        </div>
+        <div class="col-sm-6">
+            <input type="text" id="myInput" class="form-control btn-block modTextbox" placeholder="Search Here...">
+        </div>
+        </div>
+        
+        <table id="myTable" class="table table-sm table-dark table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Fullname</th>
+                <th class="d-none d-md-block" scope="col">Email</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for student in students%}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ student.fullname }}</td>
+                        <td class="d-none d-md-block">{{ student.email }}</td>
+                        <td>
+                            &nbsp<a href="{% url 'content:create' student.id%}" class="btn-edit"><span class="fa fa-pencil" title="Edit"></span></a>
+                            <button data-id="{{ student.email }}" class="btn-copy"><span class="fa fa-clone" title="Copy Email"></span></button>
+                            &nbsp<button data-delete="{{ student.id }}" class="btn-delete d-none d-md-block"><span class="fa fa-trash" title="delete"></span></button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+    </div>
+
+    <script>
+
+        $('document').ready(function(){
+
+
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tbody tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+
+            $('.btn-copy').on('click', function(){
+                value = $(this).data("id");
+                var $temp = $("<input>");
+                $("body").append($temp);
+                $temp.val(value).select();
+                document.execCommand("copy");
+                $temp.remove();
+                alert(value + " copied to clipboard")
+            })
+
+
+            $('.btn-edit').on('click', function(){
+                value = $('.btn-edit').data("edit");
+                $('.btn-edit').attr('span','')
+                window.location.href = "{% url 'content:create' %}" + value;
+            })
+
+
+            
+            $('.btn-delete').on('click', function(){
+                value = $(this).data("delete");
+                window.location.href = "/snc-bsit/dNUGnnVwy9zQyIkigk9D6vtoSBqhyM9jSS1IiT1fU/" + value;
+            })
+
+        })
+    </script>
+
+    <style>
+
+        .modTextbox{
+            border:1px solid rgba(151, 148, 148, 0.705);
+            background-color:rgba(27, 26, 26, 0.315);
+        }
+
+        .table-dark thead{
+            background-color:rgba(26, 25, 25, 0.842) !important;
+        }
+
+        .table-dark tbody{
+            color:rgba(223, 211, 211, 0.959) !important;
+        }
+
+        .table-bordered tbody tr td{
+            border:none;
+            border-bottom:1px solid rgba(148, 145, 145, 0.315);
+        }
+
+        .table-bordered thead tr th{
+            border:none;
+            border-bottom:1px solid rgba(148, 145, 145, 0.315);
+            border-top:1px solid rgba(148, 145, 145, 0.315);
+        }
+
+        .btn-edit:hover{
+            color:rgb(197, 196, 196);
+        }
+
+        .table-dark{
+            background-color:rgba(27, 26, 26, 0.315);
+        }
+
+        .modTextbox{
+            border-radius:0 !important;
+        }
+
+        .btn-copy, .btn-edit{
+            border:none;
+            background-color:rgba(1, 1, 1, 0);
+            color:rgb(199, 192, 192);
+            margin-right:5px;
+        }
+
+        .btn-delete{
+            float:left;
+            border:none;
+            background-color:rgba(1, 1, 1, 0);
+            color:rgb(199, 192, 192);
+            margin-right:5px;
+        }
+
+        .mod-form{
+            margin-top:100px;
+        }
+
+        tbody{
+            background-color:rgba(27, 26, 26, 0.315);
+        }
+        .h3{
+            color:white !important;
+        }
+    
+    </style>
+    
+{% endblock %}
